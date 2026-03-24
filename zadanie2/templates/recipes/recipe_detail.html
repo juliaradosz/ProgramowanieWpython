@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+
+        <!-- Nagłówek przepisu -->
+        <h1>{{ recipe.title }}</h1>
+
+        {% if user.is_authenticated %}
+        <div class="mb-3">
+
+            <a href="{% url 'recipes:add_to_favorites' recipe.slug %}"
+               class="btn rounded-pill {% if is_favorite %}btn-danger{% else %}btn-outline-danger{% endif %}">
+
+                {% if is_favorite %}
+                    <i class="bi bi-heart-fill"></i> Usuń z ulubionych
+                {% else %}
+                    <i class="bi bi-heart"></i> Dodaj do ulubionych
+                {% endif %}
+
+            </a>
+
+        </div>
+        {% endif %}
+
+        <div class="d-flex align-items-center gap-3 mb-3 text-muted">
+
+            <span>
+                <i class="bi bi-person"></i>
+                <a href="{% url 'recipes:profile' recipe.author.username %}" class="text-decoration-none">
+                    {{ recipe.author.username }}
+                </a>
+            </span>
+
+            <span>
+                <i class="bi bi-calendar"></i>
+                {{ recipe.created_at|date:"d.m.Y" }}
+            </span>
+
+            {% if recipe.category %}
+            <span>
+                <a href="{% url 'recipes:category_detail' recipe.category.slug %}"
+                   class="badge bg-success text-decoration-none">
+                    {{ recipe.category.name }}
+                </a>
+            </span>
+            {% endif %}
+
+            <span class="badge badge-difficulty-{{ recipe.difficulty }}">
+                {{ recipe.get_difficulty_display }}
+            </span>
+
+        </div>
+
+        {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" class="recipe-hero-img mb-4" alt="{{ recipe.title }}">
+        {% endif %}
+
+
+        <!-- Informacje -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-4">
+                <div class="card text-center p-3">
+                    <i class="bi bi-hourglass-split fs-4 text-success"></i>
+                    <small class="text-muted">Przygotowanie</small>
+                    <strong>{{ recipe.prep_time }} min</strong>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card text-center p-3">
+                    <i class="bi bi-fire fs-4 text-danger"></i>
+                    <small class="text-muted">Gotowanie</small>
+                    <strong>{{ recipe.cook_time }} min</strong>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card text-center p-3">
+                    <i class="bi bi-people fs-4 text-primary"></i>
+                    <small class="text-muted">Porcje</small>
+                    <strong>{{ recipe.servings }}</strong>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Opis -->
+        <div class="mb-4">
+            <h3>Opis</h3>
+            <p>{{ recipe.description }}</p>
+        </div>
+
+
+        <!-- Tagi -->
+        {% if recipe.tags.all %}
+        <div class="mb-4">
+            {% for tag in recipe.tags.all %}
+            <span class="badge bg-secondary">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <!-- Instrukcje -->
+        <div class="mb-4">
+            <h3>Przygotowanie</h3>
+            {{ recipe.instructions|linebreaksbr }}
+        </div>
+
+
+        <!-- Przyciski edycji -->
+        {% if user == recipe.author or user.is_staff %}
+        <div class="mb-4">
+
+            <a href="{% url 'recipes:recipe_update' recipe.slug %}" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i> Edytuj
+            </a>
+
+            <a href="{% url 'recipes:recipe_delete' recipe.slug %}" class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i> Usuń
+            </a>
+
+        </div>
+        {% endif %}
+
+
+        <hr>
+
+
+        <!-- Komentarze -->
+        <h3 class="mb-3">Komentarze ({{ comments|length }})</h3>
+
+
+        {% if user.is_authenticated %}
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <h5>Dodaj komentarz</h5>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Ocena</label>
+                        <div>
+                            {% for radio in comment_form.rating %}
+                            <div class="form-check form-check-inline">
+                                {{ radio }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_content" class="form-label">Treść</label>
+                        {{ comment_form.content }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Dodaj komentarz
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        {% else %}
+
+        <p class="text-muted">
+            <a href="{% url 'recipes:login' %}">Zaloguj się</a>,
+            aby dodać komentarz.
+        </p>
+
+        {% endif %}
+
+
+        {% for comment in comments %}
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <strong>
+                        <a href="{% url 'recipes:profile' comment.author.username %}"
+                           class="text-decoration-none">
+                            {{ comment.author.username }}
+                        </a>
+                    </strong>
+
+                    <div class="rating-stars">
+
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= comment.rating %}
+                                <i class="bi bi-star-fill"></i>
+                            {% else %}
+                                <i class="bi bi-star"></i>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    {{ comment.created_at|date:"d.m.Y H:i" }}
+                </small>
+
+                <p class="mt-2 mb-0">
+                    {{ comment.content }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+        <p class="text-muted">
+            Brak komentarzy. Bądź pierwszy!
+        </p>
+        {% endfor %}
+
+    </div>
+
+
+    <!-- Sidebar - składniki -->
+    <div class="col-lg-4">
+
+        <div class="card sticky-top" style="top: 1rem;">
+
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-basket"></i> Składniki
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <ul class="ingredient-list">
+
+                    {% for ingredient in ingredients %}
+
+                    <li>
+                        <strong>{{ ingredient.quantity }}</strong>
+
+                        {% if ingredient.unit %}
+                        {{ ingredient.unit }}
+                        {% endif %}
+
+                        — {{ ingredient.name }}
+                    </li>
+
+                    {% empty %}
+                    <li class="text-muted">
+                        Brak składników
+                    </li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

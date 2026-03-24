@@ -1,0 +1,52 @@
+logowanie
+etap 1 -> walidacja formuularza: *czy dane logowania sa poprawnie przekazane? *czy pola nie sa puste *czy logowanie mozna uznac za poprawne
+etap 2 -> uwierzytelnianie uzytkownika: *czy te dane logowania odpowiadaja prawdziwemu userowi
+
+wszystko ok -> *zapisuje id uzytkownika w sesji *kolejne requesty maja info o userze *w cookie zaposywant jest tylko indentyfikator sesji
+nie ok -> *nikogo nie loguje *odpowiedni komunikat *ponownie renderuje formularz
+
+cel -> *zalogowany user-student moze sie zapisac i wypisac, *system zapisywanaia sie na zajecia 
+
+Wczesniejsze widoi - typu GET
+teraz widoki typu POST
+-> Student | None: - skladnia union type zwraca student albo none
+getattr() - bezpiecznie obsluguje brak atrybutu (getattr(request.user, "student_profile", None)
+student albo None
+
+
+1 warstwa ochrony
+@login_required() - dekorator pilnujacy widoku tylko dla zalogowanych
+
+2 warswta ochrony
+czy dane konto ma profil sutenta?
+wszystko to po to zeby tylko zalogowani i studenci mogli sie logowac
+
+student = _current_student(request) ktory student probuje sie zalogowac
+blabla.atomic(): -> chcemy wykonac jako 1 transakcje - wszystko albo nic 
+
+get- uzywamy jesli chcemy cos pokazac ale nie zmieniac
+
+
+
+
+
+uruchomienie python nazwa.py runserver
+
+WIDOKI KLASOWE
+widoki klasowe to sposom na implementacje widowow w postaci pythonowych obiektow (a nie funkcji)
+w porownaniu z widokami bazujacymi na funkcjach maja inne wlasnosci
+	-kod zwiazany z okreslownymi metodami http mozna zoorganizpwac za pomoca osobnych metod, a nie warunkow
+widoki klasowe - pozwalaja odpowiadac na rozne metody zadania http za pomocna roznych metod instancji klasy
+widoki funkcyjne - wymuszaja kod warunkowy wewnatrz funkcji jednego widoku
+
+mixins
+mixin - klasa zaiwracaja metody, ktore mozemy ponownie uzyc
+narzedzie do tworzenia elastycznych i modularnych widokow
+cel: rozwizanie problemu dziedziczenia wielokrotnego
+
+generyczne widoki wyswietlania
+sluza do wyswietlania danych.
+w wielu projektsch najczesciej uzywane widoki
+templateView, DetailVoer, ListView
+
+widoki edytowania - obejmuja najczestsze przypadkie CRUD

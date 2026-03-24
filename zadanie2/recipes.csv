@@ -1,0 +1,50 @@
+title,category,description,instructions,prep_time,cook_time,servings,difficulty
+Pomidorowa z ry¿em,Zupy,Klasyczna zupa pomidorowa na bulionie z dodatkiem ry¿u.,Podsma¿ cebulê i czosnek. Dodaj pomidory i bulion. Gotuj 20 minut. Dopraw œmietan¹ i podawaj z ry¿em.,10,25,4,easy
+Krem broku³owy,Zupy,Kremowa zupa broku³owa idealna na lekki obiad.,Podsma¿ cebulê. Dodaj broku³y i bulion. Gotuj 15 minut. Zblenduj na krem i dopraw sol¹ oraz pieprzem.,10,20,4,easy
+Zupa cebulowa,Zupy,Francuska zupa cebulowa z grzankami i serem.,Sma¿ cebulê a¿ siê skarmelizuje. Dodaj bulion i gotuj 30 minut. Podawaj z grzank¹ i serem.,15,30,4,medium
+Krem marchewkowy,Zupy,Delikatny krem z marchewki z imbirem.,Podsma¿ cebulê. Dodaj marchew i imbir. Zalej bulionem i gotuj. Zblenduj na krem.,10,25,4,easy
+Zupa jarzynowa,Zupy,Lekka zupa z sezonowych warzyw.,Pokrój warzywa. Gotuj w bulionie do miêkkoœci. Dopraw sol¹ i pieprzem.,10,30,4,easy
+Spaghetti bolognese,Dania g³ówne,Klasyczny makaron z sosem pomidorowym i miêsem.,Podsma¿ miêso z cebul¹. Dodaj pomidory i przyprawy. Gotuj 20 minut i podawaj z makaronem.,15,25,4,easy
+Kurczak pieczony,Dania g³ówne,Soczysty kurczak pieczony z przyprawami.,Natrzyj kurczaka przyprawami i piecz w 180°C przez 60 minut.,10,60,4,easy
+Ry¿ sma¿ony z warzywami,Dania g³ówne,Szybkie danie z ry¿u i warzyw.,Podsma¿ warzywa. Dodaj ry¿ i sos sojowy. Sma¿ kilka minut.,10,10,3,easy
+Makaron z pesto,Dania g³ówne,Makaron z aromatycznym pesto bazyliowym.,Ugotuj makaron. Wymieszaj z pesto i posyp parmezanem.,5,10,2,easy
+Risotto grzybowe,Dania g³ówne,Kremowe risotto z grzybami.,Podsma¿ cebulê i ry¿. Dodawaj bulion stopniowo mieszaj¹c. Dodaj grzyby i ser.,15,30,4,medium
+Placki z cukinii,Dania g³ówne,Chrupi¹ce placki z cukinii.,Zetrzyj cukiniê. Dodaj jajko i m¹kê. Sma¿ na patelni.,10,10,3,easy
+Gulasz wo³owy,Dania g³ówne,Gêsty gulasz z miêsa wo³owego.,Podsma¿ miêso. Dodaj warzywa i przyprawy. Duœ oko³o godziny.,20,60,4,medium
+Lasagne,Dania g³ówne,Warstwowy makaron z miêsem i beszamelem.,Przygotuj sos miêsny. Uk³adaj warstwami z makaronem i beszamelem. Zapiekaj.,25,45,6,medium
+Kotlet schabowy,Dania g³ówne,Klasyczny polski kotlet schabowy.,Rozbij miêso. Panieruj w jajku i bu³ce. Sma¿ na z³oto.,10,10,2,easy
+Kurczak curry,Dania g³ówne,Aromatyczny kurczak w sosie curry.,Podsma¿ kurczaka. Dodaj curry i mleko kokosowe. Duœ 20 minut.,10,20,4,easy
+Sa³atka caprese,Sa³atki,Prosta sa³atka z pomidorów i mozzarelli.,Pokrój pomidory i mozzarellê. Skrop oliw¹ i dodaj bazyliê.,5,0,2,easy
+Sa³atka z tuñczykiem,Sa³atki,Szybka sa³atka z tuñczykiem i warzywami.,Wymieszaj tuñczyka z warzywami i majonezem.,10,0,3,easy
+Sa³atka makaronowa,Sa³atki,Sa³atka z makaronem i warzywami.,Ugotuj makaron i wymieszaj z warzywami oraz sosem.,15,10,4,easy
+Sa³atka z kurczakiem,Sa³atki,Sa³atka z grillowanym kurczakiem.,Usma¿ kurczaka i dodaj do sa³aty z warzywami.,15,10,3,easy
+Sa³atka ziemniaczana,Sa³atki,Tradycyjna sa³atka ziemniaczana.,Ugotuj ziemniaki. Wymieszaj z ogórkiem i majonezem.,20,15,4,easy
+Nachos z sals¹,Przek¹ski,Chrupi¹ce nachos z sosem pomidorowym.,Przygotuj salsê z pomidorów i podawaj z nachos.,10,0,4,easy
+Tosty z serem,Przek¹ski,Proste tosty z roztopionym serem.,W³ó¿ ser miêdzy kromki chleba i opiecz w tosterze.,5,5,1,easy
+Kanapki z past¹ jajeczn¹,Przek¹ski,Pasta jajeczna idealna na œniadanie.,Ugotuj jajka. Wymieszaj z majonezem i szczypiorkiem.,10,10,3,easy
+Bruschetta,Przek¹ski,Grzanki z pomidorami i bazyli¹.,Podpiecz pieczywo i dodaj pomidory z oliw¹.,10,5,4,easy
+Mini pizze,Przek¹ski,Ma³e pizze z ulubionymi dodatkami.,Na bu³kach roz³ó¿ sos i ser. Zapiekaj 10 minut.,10,10,4,easy
+Czekoladowe brownie,Desery,Wilgotne brownie z czekolad¹.,Rozpuœæ czekoladê z mas³em. Dodaj jajka i m¹kê. Piecz 25 minut.,15,25,6,easy
+Ciasto marchewkowe,Desery,Aromatyczne ciasto z marchewk¹.,Wymieszaj sk³adniki i piecz oko³o 40 minut.,15,40,8,easy
+Pudding chia,Desery,Deser z nasion chia i mleka.,Wymieszaj chia z mlekiem i wstaw do lodówki.,5,0,2,easy
+Mus czekoladowy,Desery,Puszysty mus z gorzkiej czekolady.,Rozpuœæ czekoladê i po³¹cz z ubit¹ œmietan¹.,10,0,3,easy
+Owsianka z owocami,Desery,Ciep³a owsianka z owocami.,Gotuj p³atki owsiane w mleku i dodaj owoce.,5,10,2,easy
+Koktajl truskawkowy,Desery,Szybki koktajl z truskawek.,Zblenduj truskawki z mlekiem.,5,0,2,easy
+Sernik pieczony,Desery,Klasyczny sernik na spodzie z herbatników.,Wymieszaj ser z jajkami i cukrem. Piecz 50 minut.,20,50,8,medium
+Naleœniki z d¿emem,Desery,Cienkie naleœniki z d¿emem.,Usma¿ naleœniki i podawaj z d¿emem.,10,15,3,easy
+Lody bananowe,Desery,Lody z mro¿onych bananów.,Zblenduj zamro¿one banany.,5,0,2,easy
+Budyñ waniliowy,Desery,Domowy budyñ waniliowy.,Gotuj mleko z proszkiem budyniowym.,5,10,2,easy
+Sa³atka owocowa,Desery,Mix œwie¿ych owoców.,Pokrój owoce i wymieszaj.,10,0,3,easy
+Pizza margherita,Dania g³ówne,Prosta pizza z pomidorami i mozzarell¹.,Roz³ó¿ sos i ser na cieœcie i piecz 12 minut.,15,12,2,easy
+Makaron z ³ososiem,Dania g³ówne,Makaron z ³ososiem i œmietan¹.,Podsma¿ ³ososia i dodaj œmietanê.,10,15,3,easy
+Ryba pieczona,Dania g³ówne,Pieczona ryba z cytryn¹.,Dopraw rybê i piecz 20 minut.,10,20,2,easy
+Kasza z warzywami,Dania g³ówne,Kasza z podsma¿anymi warzywami.,Ugotuj kaszê i dodaj warzywa.,10,20,3,easy
+Zapiekanka ziemniaczana,Dania g³ówne,Zapiekane ziemniaki z serem.,Pokrój ziemniaki i zapiekaj z serem.,15,40,4,easy
+Zupa ogórkowa,Zupy,Tradycyjna zupa ogórkowa.,Dodaj ogórki kiszone do bulionu i gotuj.,10,25,4,easy
+Krem kalafiorowy,Zupy,Delikatna zupa krem z kalafiora.,Gotuj kalafior w bulionie i zblenduj.,10,20,4,easy
+Zupa fasolowa,Zupy,Syc¹ca zupa z fasoli.,Gotuj fasolê z warzywami.,15,45,4,medium
+Sa³atka z burakiem,Sa³atki,Sa³atka z pieczonym burakiem i serem.,Upiecz buraki i wymieszaj z serem.,15,30,3,easy
+Sa³atka z makaronem i pesto,Sa³atki,Sa³atka makaronowa z pesto.,Ugotuj makaron i wymieszaj z pesto.,10,10,3,easy
+Hummus z papryk¹,Przek¹ski,Hummus z dodatkiem pieczonej papryki.,Zblenduj ciecierzycê z papryk¹ i tahini.,10,0,4,easy
+Pasta z awokado,Przek¹ski,Kremowa pasta z awokado.,Rozgnieæ awokado z czosnkiem i cytryn¹.,5,0,2,easy
+Paluszki serowe,Przek¹ski,Chrupi¹ce paluszki serowe.,Z ciasta francuskiego wytnij paski i piecz.,10,15,4,easy

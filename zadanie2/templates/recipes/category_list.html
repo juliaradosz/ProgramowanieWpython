@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Kategorie{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Kategorie przepisów</h1>
+
+<div class="row g-4">
+    {% for category in categories %}
+    <div class="col-md-4 col-6">
+        <a href="{% url 'recipes:category_detail' category.slug %}" class="text-decoration-none">
+            <div class="card h-100 text-center p-4">
+
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" 
+                         class="card-img-top mb-3 rounded" 
+                         alt="{{ category.name }}">
+
+                {% elif category.preview_recipe and category.preview_recipe.image %}
+                    <img src="{{ category.preview_recipe.image.url }}" 
+                         class="card-img-top mb-3 rounded" 
+                         alt="{{ category.name }}">
+
+                {% else %}
+                    <div class="no-image-placeholder mb-3 rounded">
+                        <i class="bi bi-grid"></i>
+                    </div>
+                {% endif %}
+
+                <h4 class="text-success">{{ category.name }}</h4>
+
+                {% if category.description %}
+                <p class="text-muted">
+                    {{ category.description|truncatewords:15 }}
+                </p>
+                {% endif %}
+
+                <span class="badge bg-success">
+                    {{ category.recipes.count }} przepisów
+                </span>
+
+            </div>
+        </a>
+    </div>
+
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h4 class="text-muted">Brak kategorii</h4>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

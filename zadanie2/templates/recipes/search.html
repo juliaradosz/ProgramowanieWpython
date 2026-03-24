@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Wyszukiwanie{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Szukaj przepisów</h1>
+
+<form method="get" class="card p-4 mb-4">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Szukaj</label>
+            {{ form.query }}
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Trudność</label>
+            <select name="difficulty" class="form-select">
+                {% for value, label in form.fields.difficulty.choices %}
+                <option value="{{ value }}" {% if form.difficulty.value == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-success w-100">
+                <i class="bi bi-search"></i> Szukaj
+            </button>
+        </div>
+    </div>
+</form>
+
+{% if form.query.value %}
+<p class="text-muted">Wyniki dla: <strong>{{ form.query.value }}</strong> ({{ recipes|length }})</p>
+{% endif %}
+
+<div class="row g-4">
+    {% for recipe in recipes %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            {% else %}
+            <div class="no-image-placeholder card-img-top">
+                <i class="bi bi-camera"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    {% if recipe.category %}
+                    <span class="badge bg-success">{{ recipe.category.name }}</span>
+                    {% endif %}
+                    <span class="badge badge-difficulty-{{ recipe.difficulty }}">{{ recipe.get_difficulty_display }}</span>
+                </div>
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text text-muted">{{ recipe.description|truncatewords:20 }}</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-success btn-sm w-100">
+                    Zobacz przepis
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h4 class="text-muted">Nie znaleziono przepisów</h4>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

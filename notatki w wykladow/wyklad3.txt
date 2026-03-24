@@ -1,0 +1,28 @@
+WYKLAD 3
+1. 
+	2 etap - add student, email, nr indeksu imie itp\
+		2.1 
+		 <int: pk> - django oczekuje int-a, ktorego wezmie z URL-a -> przekaze go do widoku jako pk -> pk to po prostu id strony
+		2.2 widoki
+		 widok laczy sie z baza danych i zwraca wynik
+		 przyjmuje zadania http -> importuje odpowiedni modek -> sprawdza jakie dane wyslac do szablonu -> zwraca wynik
+		 select_related pozwala na wybor odpowiedniego kierunku, np.  .select_related("course") 
+		 podwojny podkreslnik oznacza przejscie relacji. 	
+		 kurs bedzie przechowywal klucz do wykladowcy -> courses=lecturer.courses_order_by("code")
+		2.3 szablony
+		 szablony nie zajmuja sie logika
+		 QuerySet - specyficzna klasa Django OLM. Podobny koncept istnieje w innych ORM. W SQLAlchemy odpoiednikiem jest Query.
+			QuerySet reprezentuje w Django zestaw obiektow z bazy danych z okreslonymi warunkami. Podobny do list ale z dodatkowymi funkcjami.
+			wywolanie: iteracja, wycinanie, metody typu .first(), .last(), .count()
+			QuerySet umozliwia trzy kwestie: skladanie zapytan krokami -> a nadal powstaje jedon zapytanie, latwe laczenie operacji, integracja z szablonami
+		dzieki temu ze wczesniej sie zrobilo select_related mozna odwolac sie pozniej do e.course.code
+		python serwer.py runserver
+
+
+	3 etap - logownie
+		3.1 rozszerzamy enroll/urls.py
+		 dodajemy wbudowane widoki auth i LoginView i LogoutView - gotowe widoki Django
+		 urlpatterns += {
+			path("login/", auth_views.LoginView.as_view(template_name="enroll/login.html"), name ="login"),
+			path("logout/", auth_views.LoginView.as_view(), name ="login");
+

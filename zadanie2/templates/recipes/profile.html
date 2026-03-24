@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil - {{ profile_user.username }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center p-4">
+            {% if user_profile.avatar %}
+            <img src="{{ user_profile.avatar.url }}" class="rounded-circle mx-auto mb-3" style="width:150px;height:150px;object-fit:cover;" alt="Avatar">
+            {% else %}
+            <div class="rounded-circle mx-auto mb-3 bg-success text-white d-flex align-items-center justify-content-center" style="width:150px;height:150px;font-size:3rem;">
+                {{ profile_user.username.0|upper }}
+            </div>
+            {% endif %}
+            <h3>{{ profile_user.username }}</h3>
+
+            {% if user_profile.favorite_cuisine %}
+            <p class="text-muted"><i class="bi bi-heart"></i> {{ user_profile.favorite_cuisine }}</p>
+            {% endif %}
+
+            {% if user_profile.bio %}
+            <p>{{ user_profile.bio }}</p>
+            {% endif %}
+
+            <p class="text-muted"><small>Dołączył: {{ profile_user.date_joined|date:"d.m.Y" }}</small></p>
+
+            {% if user == profile_user %}
+            <a href="{% url 'recipes:profile_edit' profile_user.username %}" class="btn btn-outline-success">
+                <i class="bi bi-pencil"></i> Edytuj profil
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        <!-- PRZEPISY UŻYTKOWNIKA -->
+
+        <h3 class="mb-3">Przepisy użytkownika ({{ user_recipes|length }})</h3>
+
+        <div class="row g-3">
+            {% for recipe in user_recipes %}
+            <div class="col-md-6">
+                <div class="card h-100">
+
+                    {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% else %}
+                    <div class="no-image-placeholder card-img-top">
+                        <i class="bi bi-camera"></i>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-success btn-sm w-100">
+                            Zobacz
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">Ten użytkownik nie dodał jeszcze żadnych przepisów.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <!-- ULUBIONE PRZEPISY -->
+
+        <h3 class="mt-5 mb-3">
+            Ulubione przepisy
+            ({{ favorite_recipes|length }})
+        </h3>
+
+        <div class="row g-3">
+
+            {% for recipe in favorite_recipes %}
+            <div class="col-md-6">
+
+                <div class="card h-100">
+
+                    {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% else %}
+                    <div class="no-image-placeholder card-img-top">
+                        <i class="bi bi-camera"></i>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
+                    </div>
+
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-danger btn-sm w-100">
+                            Zobacz przepis
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">Ten użytkownik nie ma jeszcze ulubionych przepisów.</p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
