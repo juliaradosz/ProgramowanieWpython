@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if book %}
+<div style="max-width: 1000px; margin: 40px auto;">
+    <div class="card-glass" style="display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap;">
+
+        {# Left: cover + author #}
+        <div style="flex: 0 0 220px; text-align: center;">
+            <img src="{{ book.cover_url }}" alt="{{ book.title }}"
+                 style="width: 100%; max-width: 200px; border-radius: 12px;
+                        box-shadow: 0 10px 30px rgba(107,63,74,0.22);">
+
+            <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(242,196,206,0.4);">
+                <p style="font-size: 0.78em; color: var(--petal); text-transform: uppercase;
+                           letter-spacing: 0.1em; margin-bottom: 8px;">About the author</p>
+                <img src="{{ book.author_photo }}" alt="{{ book.author }}"
+                     style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover;
+                            border: 2px solid var(--rose); margin-bottom: 8px;"
+                     onerror="this.style.display='none'">
+                <p style="font-weight: 600; font-size: 0.92em; margin-bottom: 8px;">{{ book.author }}</p>
+                {% if book.author_bio %}
+                <p style="font-size: 0.78em; color: #9a7070; line-height: 1.6; text-align: left;">
+                    {{ book.author_bio }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Right: details #}
+        <div style="flex: 1; min-width: 260px;">
+            <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 2.2em;
+                       font-weight: 400; line-height: 1.2; margin-bottom: 6px;">{{ book.title }}</h1>
+            <p style="color: var(--petal); font-size: 1em; margin-bottom: 20px;">{{ book.author }}</p>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+                <span style="background: var(--blush); border: 1px solid var(--rose);
+                             padding: 4px 14px; border-radius: 20px; font-size: 0.8em;">{{ book.genre }}</span>
+                <span style="background: var(--lavender); border: 1px solid #d8c0f0;
+                             padding: 4px 14px; border-radius: 20px; font-size: 0.8em;">{{ book.year }}</span>
+                {% if book.page_count and book.page_count != '—' %}
+                <span style="background: var(--mint); border: 1px solid #b0ddd0;
+                             padding: 4px 14px; border-radius: 20px; font-size: 0.8em;">{{ book.page_count }} pages</span>
+                {% endif %}
+            </div>
+
+            <div style="background: rgba(253,246,240,0.7); border-radius: 12px;
+                        padding: 14px 18px; margin-bottom: 24px; font-size: 0.85em; color: #8a6a70;">
+                <p><strong>Publisher:</strong> {{ book.publisher or '—' }}</p>
+                <p style="margin-top: 4px;"><strong>First published:</strong> {{ book.year or '—' }}</p>
+            </div>
+
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-style: italic;
+                       font-size: 1.2em; margin-bottom: 10px;">Description</h3>
+            <p style="line-height: 1.75; font-size: 0.9em; color: #6b4a52; text-align: justify; margin-bottom: 28px;">
+                {{ book.description | safe }}
+            </p>
+
+            {# Add to shelf #}
+            {% if current_user.is_authenticated %}
+            <div style="background: rgba(242,196,206,0.15); border: 1px solid var(--rose);
+                        border-radius: 14px; padding: 18px; margin-bottom: 28px;">
+                <p style="font-size: 0.85em; font-weight: 600; margin-bottom: 12px;">Add to your shelf</p>
+                <form action="{{ url_for('books.update_status') }}" method="post"
+                      style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="hidden" name="title"       value="{{ book.title }}">
+                    <input type="hidden" name="author"      value="{{ book.author }}">
+                    <input type="hidden" name="genre"       value="{{ book.genre }}">
+                    <input type="hidden" name="year"        value="{{ book.year }}">
+                    <input type="hidden" name="description" value="{{ book.description }}">
+                    <input type="hidden" name="cover_url"   value="{{ book.cover_url }}">
+                    <input type="hidden" name="publisher"   value="{{ book.publisher }}">
+                    <input type="hidden" name="page_count"  value="{{ book.page_count }}">
+                    <input type="hidden" name="google_id"   value="{{ book.google_id }}">
+                    <select name="status" style="flex: 1; min-width: 160px;">
+                        <option value="To Read">Want to read</option>
+                        <option value="Reading">Currently reading</option>
+                        <option value="Read">Finished</option>
+                    </select>
+                    <button type="submit" class="btn-magic" style="padding: 9px 22px;">Save ✦</button>
+                </form>
+            </div>
+            {% endif %}
+
+            {# Reviews #}
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-style: italic;
+                       font-size: 1.3em; border-bottom: 1px solid rgba(242,196,206,0.5);
+                       padding-bottom: 8px; margin-bottom: 16px;">Reader Reviews</h3>
+
+            {% if reviews %}
+                {% for review in reviews %}
+                <div style="background: rgba(255,255,255,0.6); border-left: 3px solid var(--rose);
+                            border-radius: 0 12px 12px 0; padding: 14px 16px; margin-bottom: 14px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <strong style="font-size: 0.88em;">{{ review.author.username }}</strong>
+                        <span style="font-size: 0.9em;">{% for i in range(review.rating) %}⭐{% endfor %}</span>
+                    </div>
+                    <p style="font-style: italic; font-size: 0.88em; line-height: 1.6; color: #6b4a52;">
+                        "{{ review.content }}"
+                    </p>
+                    <small style="color: #bbb; font-size: 0.75em;">{{ review.timestamp.strftime('%d.%m.%Y') }}</small>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p style="font-style: italic; color: var(--petal); font-size: 0.88em; margin-bottom: 20px;">
+                No reviews yet. Be the first ✦
+            </p>
+            {% endif %}
+
+            {# Add review #}
+            {% if current_user.is_authenticated and db_book %}
+            <div style="background: rgba(242,196,206,0.1); border: 1px solid var(--rose);
+                        border-radius: 14px; padding: 18px; margin-top: 20px;">
+                <p style="font-size: 0.88em; font-weight: 600; margin-bottom: 14px;">Write a review</p>
+                <form action="{{ url_for('books.add_review') }}" method="post">
+                    <input type="hidden" name="title"  value="{{ book.title }}">
+                    <input type="hidden" name="author" value="{{ book.author }}">
+                    <div style="margin-bottom: 12px;">
+                        <label>Rating</label>
+                        <select name="rating">
+                            <option value="5">⭐⭐⭐⭐⭐ Masterpiece</option>
+                            <option value="4">⭐⭐⭐⭐ Great</option>
+                            <option value="3">⭐⭐⭐ Good</option>
+                            <option value="2">⭐⭐ Okay</option>
+                            <option value="1">⭐ Disappointing</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 14px;">
+                        <label>Your thoughts</label>
+                        <textarea name="content" rows="4" required placeholder="What did you think?"></textarea>
+                    </div>
+                    <button type="submit" class="btn-magic"
+                            style="width: 100%; padding: 10px; background: var(--rose); border-color: var(--petal);">
+                        Submit review ✦
+                    </button>
+                </form>
+            </div>
+            {% elif current_user.is_authenticated and not db_book %}
+            <p style="font-style: italic; color: var(--petal); font-size: 0.82em; margin-top: 16px;">
+                ✦ Add this book to your shelf first to leave a review.
+            </p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div style="text-align: center; padding: 80px 20px;">
+    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5em;
+              color: var(--petal); margin-bottom: 20px;">Book not found ✦</p>
+    <a href="{{ url_for('books.index') }}" class="btn-magic">Back to catalogue</a>
+</div>
+{% endif %}
+
+{% endblock %}

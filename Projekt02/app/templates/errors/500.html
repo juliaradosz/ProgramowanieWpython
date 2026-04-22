@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center; padding: 80px 20px;">
+    <div style="font-family: 'Cormorant Garamond', serif; font-size: 7em;
+                font-style: italic; color: var(--lavender); line-height: 1; margin-bottom: 8px;">500</div>
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-style: italic;
+               font-size: 1.8em; color: var(--bark); margin-bottom: 6px;">Something went wrong</h2>
+    <p style="color: var(--petal); font-size: 0.95em; margin-bottom: 32px;">
+        A little magic mishap on our end — we're working on it ✦
+    </p>
+    <a href="{{ url_for('books.index') }}" class="btn-magic"
+       style="background: var(--rose); border-color: var(--petal);">
+        Back to catalogue
+    </a>
+</div>
+{% endblock %}

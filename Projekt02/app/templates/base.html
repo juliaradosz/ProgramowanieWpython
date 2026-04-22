@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✦ Enchanted Library ✦</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fairy_tale.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="site-title">✦ <span>Enchanted</span> Library ✦</div>
+    <div class="site-tagline">a magical place for book lovers</div>
+
+    <nav>
+        <a href="{{ url_for('books.index') }}" class="btn-magic">Catalogue</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('books.profile') }}" class="btn-magic">My Shelf</a>
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('auth.admin_panel') }}" class="btn-magic" style="border-color: var(--gold); background: rgba(232,201,122,0.15);">✦ Admin</a>
+            {% endif %}
+            <a href="{{ url_for('auth.logout') }}" class="btn-magic" style="border-color: var(--lavender);">Log out</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}" class="btn-magic">Log in</a>
+            <a href="{{ url_for('auth.register') }}" class="btn-magic" style="background: var(--rose);">Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash-msg">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>✦ &nbsp; ✦ &nbsp; ✦</p>
+    <p style="margin-top: 8px;">&copy; 2025/26 &nbsp;·&nbsp; Python Programming Project II</p>
+    <p>Małgorzata Pytlak &amp; Julia Radosz</p>
+</footer>
+
+</body>
+</html>

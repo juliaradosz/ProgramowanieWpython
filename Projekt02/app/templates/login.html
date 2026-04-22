@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width: 420px; margin: 48px auto;">
+    <div class="card-glass">
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 2em; text-align: center; margin-bottom: 6px;">Welcome back</h2>
+        <p style="text-align: center; font-size: 0.88em; color: var(--petal); margin-bottom: 28px;">Log in to your enchanted library</p>
+
+        <form method="POST">
+            <div style="margin-bottom: 16px;">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div style="margin-bottom: 24px;">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-magic" style="width: 100%; padding: 12px; font-size: 1em; background: var(--rose); border-color: var(--petal);">
+                Log in ✦
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 0.88em;">
+            No account?
+            <a href="{{ url_for('auth.register') }}" style="color: var(--petal); font-weight: 600;">Register here</a>
+        </p>
+
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rose); font-size: 0.8em; color: #9a7070;">
+            <p><strong>Test accounts:</strong><br>
+            Admin: <code>admin</code> / <code>puchatek123</code><br>
+            User: <code>kopciuszek</code> / <code>pantofelek</code></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{# ── Hero ── #}
+<div style="text-align: center; padding: 48px 20px 32px;">
+    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--petal); font-size: 1.05em; margin-bottom: 28px;">
+        "A reader lives a thousand lives before she dies."
+    </p>
+
+    <form action="{{ url_for('books.index') }}" method="get" class="search-wrap">
+        <input type="text" name="query" placeholder="Search for books, authors…" value="{{ request.args.get('query', '') }}">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+{# ── Genre grid ── #}
+<section style="margin-bottom: 64px;">
+    <div class="section-title">Explore by genre</div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        {% for genre in genres %}
+        <a href="{{ url_for('books.index', category=genre) }}" style="text-decoration: none;">
+            <div class="genre-card">
+                <img src="{{ category_previews[genre] }}" alt="{{ genre }}"
+                     onerror="this.src='https://via.placeholder.com/160x220?text={{ genre }}'">
+                <div class="genre-label">{{ genre }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<hr style="border: none; border-top: 1px solid rgba(242,196,206,0.4); margin: 0 0 48px;">
+
+{# ── Books shelf ── #}
+<section>
+    <div class="section-title">{{ shelf_title }}</div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 28px;">
+        {% for book in books %}
+        <div class="book-card" style="width: 210px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 16px 20px; position: relative;">
+
+            {# Author avatar #}
+            <img src="{{ book.author_photo }}" alt="{{ book.author }}"
+                 style="position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
+                        border-radius: 50%; object-fit: cover; border: 2px solid var(--rose);
+                        background: var(--blush);"
+                 onerror="this.style.display='none'">
+
+            {# Cover #}
+            <img src="{{ book.cover_url }}" alt="{{ book.title }}"
+                 style="width: 120px; height: 180px; object-fit: cover; border-radius: 8px;
+                        box-shadow: 0 6px 20px rgba(107,63,74,0.18); margin-bottom: 14px;">
+
+            <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05em;
+                        font-weight: 600; line-height: 1.3; height: 2.7em; overflow: hidden; margin-bottom: 4px;">
+                {{ book.title }}
+            </div>
+            <div style="font-size: 0.8em; color: var(--petal); margin-bottom: 6px;">{{ book.author }}</div>
+            <span style="background: var(--blush); border: 1px solid var(--rose);
+                         padding: 2px 10px; border-radius: 20px; font-size: 0.72em;
+                         color: var(--bark); margin-bottom: 12px; display: inline-block;">
+                {{ book.genre }}
+            </span>
+
+            <p style="font-size: 0.78em; color: #8a6a70; line-height: 1.5;
+                      height: 4.5em; overflow: hidden; margin-bottom: 14px; text-align: left;">
+                {{ book.description[:120] }}…
+            </p>
+
+            <div style="margin-top: auto; width: 100%;">
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('books.update_status') }}" method="post" style="margin-bottom: 8px;">
+                    <input type="hidden" name="google_id" value="{{ book.google_id }}">
+                    <input type="hidden" name="title"     value="{{ book.title }}">
+                    <input type="hidden" name="author"    value="{{ book.author }}">
+                    <input type="hidden" name="genre"     value="{{ book.genre }}">
+                    <input type="hidden" name="year"      value="{{ book.year }}">
+                    <input type="hidden" name="description" value="{{ book.description }}">
+                    <input type="hidden" name="cover_url" value="{{ book.cover_url }}">
+                    <input type="hidden" name="publisher" value="{{ book.publisher }}">
+                    <input type="hidden" name="page_count" value="{{ book.page_count }}">
+
+                    <select name="status" style="width: 100%; margin-bottom: 6px; font-size: 0.82em; padding: 7px 10px; border-radius: 10px;">
+                        <option value="To Read">Want to read</option>
+                        <option value="Reading">Currently reading</option>
+                        <option value="Read">Read</option>
+                    </select>
+                    <button type="submit" class="btn-magic" style="width: 100%; padding: 7px; font-size: 0.82em;">
+                        Add to shelf
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="{{ url_for('books.book_details', ol_id=book.google_id) }}"
+                   style="font-size: 0.8em; color: var(--petal); text-decoration: none; font-weight: 600;">
+                   Details & Reviews →
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 60px; color: var(--petal); font-style: italic; width: 100%;">
+            No books found. Try a different search. ✦
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

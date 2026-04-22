@@ -1,0 +1,350 @@
+/* ✨ Enchanted Library — Fairycore / Pastel Magic Theme ✨ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@300;400;500;600&display=swap');
+
+:root {
+    --rose:    #f2c4ce;
+    --blush:   #fbe8ec;
+    --lavender:#e8d5f5;
+    --mint:    #d4f0e8;
+    --gold:    #e8c97a;
+    --cream:   #fdf6f0;
+    --bark:    #6b3f4a;
+    --petal:   #c97b8a;
+    --mist:    #f8f0fb;
+    --sparkle: #f7d6e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--cream);
+    color: var(--bark);
+    min-height: 100vh;
+    background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(242,196,206,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(232,213,245,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(212,240,232,0.2) 0%, transparent 70%);
+    background-attachment: fixed;
+}
+
+/* ── Sparkle particles ── */
+body::before {
+    content: '✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    font-size: 0.6em;
+    color: rgba(232,201,122,0.25);
+    letter-spacing: 1.8em;
+    text-align: center;
+    padding-top: 8px;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* ── Header ── */
+header {
+    position: relative;
+    text-align: center;
+    padding: 48px 20px 32px;
+    background: linear-gradient(180deg,
+        rgba(242,196,206,0.4) 0%,
+        rgba(248,240,251,0.1) 100%);
+    border-bottom: 1px solid rgba(232,201,122,0.3);
+}
+
+.site-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2em;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--bark);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+}
+
+.site-title span {
+    color: var(--petal);
+}
+
+.site-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--petal);
+    font-size: 1em;
+    margin-top: 6px;
+    opacity: 0.85;
+}
+
+/* ── Nav ── */
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-magic {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 9px 22px;
+    border-radius: 50px;
+    border: 1.5px solid var(--rose);
+    background: rgba(255,255,255,0.7);
+    color: var(--bark);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 12px rgba(201,123,138,0.12);
+}
+
+.btn-magic:hover {
+    background: var(--rose);
+    border-color: var(--petal);
+    color: var(--bark);
+    box-shadow: 0 4px 20px rgba(201,123,138,0.3);
+    transform: translateY(-1px);
+}
+
+.btn-magic.active, .btn-magic:active {
+    background: var(--petal);
+    color: white;
+    border-color: var(--petal);
+}
+
+/* ── Flash messages ── */
+.flash-msg {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid var(--rose);
+    border-radius: 14px;
+    padding: 12px 24px;
+    text-align: center;
+    margin: 16px auto;
+    max-width: 600px;
+    font-size: 0.9em;
+    color: var(--bark);
+    backdrop-filter: blur(6px);
+}
+
+/* ── Search bar ── */
+.search-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 16px;
+}
+
+.search-wrap input {
+    width: 420px;
+    padding: 14px 24px;
+    border-radius: 50px 0 0 50px;
+    border: 1.5px solid var(--rose);
+    border-right: none;
+    outline: none;
+    background: rgba(255,255,255,0.85);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95em;
+    color: var(--bark);
+    backdrop-filter: blur(6px);
+}
+
+.search-wrap button {
+    border-radius: 0 50px 50px 0;
+    border: 1.5px solid var(--rose);
+    background: var(--petal);
+    color: white;
+    padding: 14px 28px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-wrap button:hover {
+    background: var(--bark);
+}
+
+/* ── Section titles ── */
+h1, h2, h3, .fairy-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: var(--bark);
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7em;
+    font-style: italic;
+    text-align: center;
+    color: var(--bark);
+    margin-bottom: 28px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 10px auto 0;
+}
+
+/* ── Genre cards ── */
+.genre-card {
+    width: 160px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 6px 20px rgba(107,63,74,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.genre-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 14px 35px rgba(107,63,74,0.2);
+}
+
+.genre-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.92) saturate(1.1);
+}
+
+.genre-card .genre-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(107,63,74,0.75));
+    padding: 28px 12px 14px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1em;
+    color: white;
+    letter-spacing: 0.03em;
+}
+
+/* ── Book cards ── */
+.book-card {
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(242,196,206,0.6);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(107,63,74,0.07);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(107,63,74,0.13);
+    border-color: var(--rose);
+}
+
+/* ── Profile / detail cards ── */
+.card-glass {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(242,196,206,0.5);
+    border-radius: 20px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 24px rgba(107,63,74,0.08);
+}
+
+/* ── Tables ── */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: rgba(255,255,255,0.8);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+thead tr {
+    background: var(--blush);
+    border-bottom: 1.5px solid var(--rose);
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(242,196,206,0.4);
+    transition: background 0.15s;
+}
+
+tbody tr:hover {
+    background: rgba(248,240,251,0.6);
+}
+
+/* ── Forms ── */
+input[type=text], input[type=email], input[type=password], textarea, select {
+    font-family: 'Nunito', sans-serif;
+    border: 1.5px solid var(--rose);
+    border-radius: 12px;
+    padding: 11px 16px;
+    background: rgba(255,255,255,0.85);
+    color: var(--bark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--petal);
+    box-shadow: 0 0 0 3px rgba(201,123,138,0.12);
+}
+
+label {
+    font-size: 0.88em;
+    font-weight: 600;
+    color: var(--bark);
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.82em;
+    color: var(--petal);
+    margin-top: 60px;
+    border-top: 1px solid rgba(242,196,206,0.4);
+}
+
+footer p { margin: 4px 0; }
+
+/* ── Utility ── */
+main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.text-center { text-align: center; }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .site-title { font-size: 2em; }
+    .search-wrap input { width: 220px; }
+    .genre-card { width: 130px; }
+}

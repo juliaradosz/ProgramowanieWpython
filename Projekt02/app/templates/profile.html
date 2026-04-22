@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 1100px; margin: 40px auto;">
+    <div class="section-title">{{ current_user.username }}'s Shelf ✦</div>
+
+    {% for status_label, status_id, icon in [('Currently Reading', 'Reading', '📖'), ('Want to Read', 'To Read', '🌙'), ('Finished', 'Read', '✦')] %}
+    <div style="margin-bottom: 48px;">
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4em;
+                   color: var(--petal); border-bottom: 1px solid rgba(242,196,206,0.5);
+                   padding-bottom: 8px; margin-bottom: 20px;">
+            {{ icon }} &nbsp; {{ status_label }}
+        </h3>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            {% set entries = (reading if status_id == 'Reading' else to_read if status_id == 'To Read' else read) %}
+            {% for entry in entries %}
+            <div style="width: 120px; text-align: center;">
+                <img src="{{ entry.book.cover_url or 'https://via.placeholder.com/120x180?text=✦' }}"
+                     style="width: 100%; height: 170px; object-fit: cover; border-radius: 10px;
+                            box-shadow: 0 4px 14px rgba(107,63,74,0.15);">
+                <p style="font-size: 0.75em; margin: 7px 0 6px; font-weight: 600;
+                          height: 2.8em; overflow: hidden; line-height: 1.4;">{{ entry.book.title }}</p>
+                <a href="{{ url_for('books.book_details', ol_id=entry.book.google_id) if entry.book.google_id else url_for('books.index') }}"
+                   class="btn-magic" style="padding: 4px 10px; font-size: 0.72em;">Details</a>
+            </div>
+            {% else %}
+            <p style="font-style: italic; color: var(--petal); font-size: 0.88em; padding: 4px 0;">
+                Nothing here yet ✦
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 1100px; margin: 40px auto;">
+    <div class="section-title">Admin Panel ✦</div>
+
+    {# Users #}
+    <div style="margin-bottom: 48px;">
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4em;
+                   color: var(--petal); border-bottom: 1px solid rgba(242,196,206,0.5);
+                   padding-bottom: 8px; margin-bottom: 20px;">
+            👥 Users ({{ users|length }})
+        </h3>
+        <div class="card-glass" style="padding: 0; overflow: hidden;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th style="text-align:center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td style="color: #bbb;">{{ user.id }}</td>
+                        <td><strong>{{ user.username }}</strong></td>
+                        <td>{{ user.email }}</td>
+                        <td style="text-align:center;">
+                            <a href="{{ url_for('auth.delete_user', id=user.id) }}"
+                               class="btn-magic"
+                               style="background:#e8d5d5; border-color:#c0392b; color:#c0392b; padding: 5px 14px; font-size: 0.8em;"
+                               onclick="return confirm('Delete user {{ user.username }}?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" style="text-align:center; padding:24px; font-style:italic; color:var(--petal);">No users.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Reviews #}
+    <div>
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4em;
+                   color: var(--petal); border-bottom: 1px solid rgba(242,196,206,0.5);
+                   padding-bottom: 8px; margin-bottom: 20px;">
+            📝 Reviews ({{ reviews|length }})
+        </h3>
+        <div class="card-glass" style="padding: 0; overflow: hidden;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Book</th>
+                        <th>Review</th>
+                        <th style="text-align:center;">Rating</th>
+                        <th style="text-align:center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td><strong>{{ review.author.username }}</strong></td>
+                        <td>{{ review.book.title }}</td>
+                        <td style="font-size:0.88em; font-style:italic;">"{{ review.content }}"</td>
+                        <td style="text-align:center;">{% for i in range(review.rating) %}⭐{% endfor %}</td>
+                        <td style="text-align:center;">
+                            <a href="{{ url_for('auth.delete_review', id=review.id) }}"
+                               class="btn-magic"
+                               style="background:#e8d5d5; border-color:#c0392b; color:#c0392b; padding: 5px 14px; font-size: 0.8em;"
+                               onclick="return confirm('Delete this review?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5" style="text-align:center; padding:24px; font-style:italic; color:var(--petal);">No reviews yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
