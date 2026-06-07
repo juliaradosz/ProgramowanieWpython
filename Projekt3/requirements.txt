@@ -1,0 +1,10 @@
+# Zależności projektu (wersje, na których projekt był testowany).
+# Instalacja:  pip install -r requirements.txt
+numpy==2.4.1
+pandas==3.0.3
+scipy==1.17.1
+scikit-learn==1.8.0
+matplotlib==3.10.8
+wordcloud==1.9.6
+joblib==1.5.3
+flask==3.1.2

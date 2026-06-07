@@ -1,0 +1,256 @@
+/* Styl strony detektora spamu/phishingu — motyw różowy.
+   Priorytet: czytelność i WYSOKI KONTRAST (kryterium oceny projektu).
+   Pary tekst/tło dobrane tak, by spełniać wytyczne WCAG AA (>= 4.5:1).
+   Kolory semantyczne zachowane: spam = ostrzeżenie, ham = bezpieczne. */
+
+:root {
+  --bg-1: #ffe3ef;          /* tło – jasny róż (gradient) */
+  --bg-2: #ffd0e4;
+  --card: #ffffff;
+  --text: #2b1620;          /* ciemny tekst na białym – kontrast ~13:1 */
+  --muted: #6b5560;
+  --border: #f3c6da;
+  --primary: #c2185b;       /* głęboki róż – akcja główna (biały tekst OK) */
+  --primary-dark: #9c134a;
+  --accent-soft: #fff0f6;   /* delikatne różowe wypełnienia */
+  --spam: #b0003a;          /* malinowa czerwień – zagrożenie */
+  --spam-bg: #ffe1ea;
+  --ham: #1b7f4d;           /* zieleń – bezpieczne (czytelny sygnał) */
+  --ham-bg: #e3f6ec;
+  --warn-bg: #fff4e5;
+  --warn-border: #d98e00;
+  --shadow: 0 10px 30px rgba(194, 24, 91, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 44px 16px;
+  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  line-height: 1.55;
+}
+
+.card {
+  width: 100%;
+  max-width: 660px;
+  background: var(--card);
+  border-radius: 18px;
+  padding: 34px 38px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  animation: rise .4s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Nagłówek -------------------------------------------------------- */
+h1 {
+  margin: 0 0 6px;
+  font-size: 1.65rem;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo { font-size: 1.6rem; }
+
+.subtitle {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 22px;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.legend li { display: flex; align-items: center; gap: 8px; }
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-ham  { background: var(--ham); }
+.dot-spam { background: var(--spam); }
+
+/* --- Banery informacyjne --------------------------------------------- */
+.banner {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+.banner-warn  { background: var(--warn-bg); border: 1px solid var(--warn-border); }
+.banner-error { background: var(--spam-bg); border: 1px solid var(--spam);
+                color: var(--spam); }
+
+code {
+  background: var(--accent-soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* --- Formularz ------------------------------------------------------- */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--primary-dark);
+}
+
+textarea {
+  width: 100%;
+  padding: 13px 15px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  resize: vertical;
+  transition: border-color .15s, box-shadow .15s;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(194, 24, 91, 0.18);
+}
+textarea:disabled { background: #f6f0f3; cursor: not-allowed; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.btn {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s, transform .05s;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+.btn-primary:active:not(:disabled) { transform: translateY(1px); }
+.btn-primary:disabled { background: #d9b4c4; cursor: not-allowed; }
+.btn:focus-visible { outline: 3px solid rgba(194, 24, 91, 0.55);
+                      outline-offset: 2px; }
+
+.examples { color: var(--muted); font-size: 0.9rem; }
+.chip {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 4px 12px;
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .15s;
+}
+.chip:hover { background: #ffe0ee; }
+
+/* --- Wynik klasyfikacji ---------------------------------------------- */
+.result {
+  margin-top: 26px;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  animation: rise .35s ease both;
+}
+.result-spam { background: var(--spam-bg); border-color: var(--spam); }
+.result-ham  { background: var(--ham-bg);  border-color: var(--ham); }
+
+.verdict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.badge {
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 9px 18px;
+  border-radius: 10px;
+  color: #fff;
+  letter-spacing: .3px;
+}
+.badge-spam { background: var(--spam); }
+.badge-ham  { background: var(--ham); }
+.conf-text  { color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+
+.bar {
+  height: 18px;
+  background: #f1dde6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width .5s ease;
+}
+.fill-spam { background: var(--spam); }
+.fill-ham  { background: var(--ham); }
+
+.bar-caption { font-size: 0.92rem; color: var(--muted); margin: 8px 0 0; }
+
+.analyzed { margin-top: 16px; font-size: 0.93rem; }
+.analyzed summary {
+  cursor: pointer;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+.analyzed p {
+  margin: 8px 0 0;
+  padding: 11px 13px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  word-break: break-word;
+}
+
+/* --- Stopka ---------------------------------------------------------- */
+footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+@media (max-width: 520px) {
+  .card { padding: 24px 20px; }
+  h1 { font-size: 1.4rem; }
+  .verdict { flex-direction: column; align-items: flex-start; }
+}

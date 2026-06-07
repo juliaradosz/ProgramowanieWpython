@@ -1,0 +1,13 @@
+# Dane pobierane automatycznie (nie trzymamy ich w repozytorium)
+data/SMSSpamCollection
+data/*.zip
+
+# Wyniki generowane przez pipeline
+results/
+
+# Artefakty Pythona
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/

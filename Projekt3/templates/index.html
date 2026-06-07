@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detektor spamu / phishingu SMS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1><span class="logo" aria-hidden="true">💌</span>
+        Detektor spamu / phishingu SMS</h1>
+      <p class="subtitle">
+        Projekt 3 (PPy) — klasyfikacja wiadomości metodami uczenia maszynowego
+      </p>
+      <ul class="legend">
+        <li><span class="dot dot-ham"></span>
+          <strong>ham</strong> — wiadomość pożądana (normalna)</li>
+        <li><span class="dot dot-spam"></span>
+          <strong>spam</strong> — wiadomość niechciana / phishing</li>
+      </ul>
+    </header>
+
+    {% if not model_ready %}
+    <div class="banner banner-warn" role="alert">
+      Brak wytrenowanego modelu. Uruchom najpierw w terminalu
+      <code>python main.py</code>, a następnie odśwież tę stronę.
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="banner banner-error" role="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="/">
+      <label for="message">Treść wiadomości</label>
+      <textarea id="message" name="message" rows="5"
+        placeholder="Wklej tu treść wiadomości SMS do sprawdzenia..."
+        {% if not model_ready %}disabled{% endif %}>{{ prefill }}</textarea>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary"
+          {% if not model_ready %}disabled{% endif %}>
+          Sprawdź wiadomość
+        </button>
+        <span class="examples">
+          Przykłady:
+          <a class="chip" href="/?example=spam">spam</a>
+          <a class="chip" href="/?example=ham">ham</a>
+        </span>
+      </div>
+    </form>
+
+    {% if result %}
+    <section class="result {{ 'result-spam' if result.is_spam else 'result-ham' }}"
+             aria-live="polite">
+      <div class="verdict">
+        <span class="badge {{ 'badge-spam' if result.is_spam else 'badge-ham' }}">
+          {{ '⚠ SPAM / PHISHING' if result.is_spam else '✓ WIADOMOŚĆ BEZPIECZNA' }}
+        </span>
+        <span class="conf-text">
+          pewność: {{ '%.1f'|format(result.confidence * 100) }}%
+        </span>
+      </div>
+
+      <div class="bar" title="Prawdopodobieństwo, że to spam/phishing">
+        <div class="bar-fill {{ 'fill-spam' if result.is_spam else 'fill-ham' }}"
+             style="width: {{ '%.1f'|format(result.spam_proba * 100) }}%"></div>
+      </div>
+      <p class="bar-caption">
+        Oszacowane prawdopodobieństwo spamu/phishingu:
+        <strong>{{ '%.1f'|format(result.spam_proba * 100) }}%</strong>
+      </p>
+
+      <details class="analyzed">
+        <summary>Analizowana treść</summary>
+        <p>{{ result.message }}</p>
+      </details>
+    </section>
+    {% endif %}
+
+    <footer>
+      Model: najlepszy klasyfikator wybrany w eksperymencie
+      (<code>results/best_model.joblib</code>).
+      Wynik ma charakter pomocniczy — zawsze weryfikuj podejrzane wiadomości.
+    </footer>
+  </main>
+</body>
+</html>
