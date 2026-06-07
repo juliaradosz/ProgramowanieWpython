@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_card %}
+{% block title %}Wyszukiwanie{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Wyszukaj przepis</h1>
+
+<form method="get" class="card card-body mb-4">
+    <div class="row g-2">
+        <div class="col-md-7">
+            <input type="text" name="query" class="form-control"
+                   placeholder="Szukaj po tytule, opisie lub składnikach…" value="{{ query }}">
+        </div>
+        <div class="col-md-3">
+            <select name="difficulty" class="form-select">
+                <option value="">Każda trudność</option>
+                <option value="easy" {{ 'selected' if difficulty == 'easy' }}>Łatwy</option>
+                <option value="medium" {{ 'selected' if difficulty == 'medium' }}>Średni</option>
+                <option value="hard" {{ 'selected' if difficulty == 'hard' }}>Trudny</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success w-100"><i class="bi bi-search"></i> Szukaj</button>
+        </div>
+    </div>
+</form>
+
+{% if query or difficulty %}
+<p class="text-muted">Znaleziono {{ recipes|length }} przepisów.</p>
+<div class="row">
+    {% for recipe in recipes %}
+        {{ recipe_card(recipe) }}
+    {% else %}
+        <p class="text-muted">Brak wyników dla podanych kryteriów.</p>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

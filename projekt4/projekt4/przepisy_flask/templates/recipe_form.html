@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ title }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ field(form.title) }}
+    <div class="row">
+        <div class="col-md-6">{{ field(form.category) }}</div>
+        <div class="col-md-6">{{ field(form.difficulty) }}</div>
+    </div>
+    {{ field(form.description, rows=3) }}
+    {{ field(form.instructions, rows=8) }}
+    <div class="row">
+        <div class="col-md-4">{{ field(form.prep_time) }}</div>
+        <div class="col-md-4">{{ field(form.cook_time) }}</div>
+        <div class="col-md-4">{{ field(form.servings) }}</div>
+    </div>
+    {{ field(form.image) }}
+
+    <h4 class="mt-4">Składniki</h4>
+    <div id="ingredients">
+        {% set existing = recipe.ingredients if recipe else [] %}
+        {% for ing in existing %}
+        <div class="row g-2 mb-2 ingredient-row">
+            <div class="col-5"><input name="ingredient_name" class="form-control" placeholder="Nazwa" value="{{ ing.name }}"></div>
+            <div class="col-3"><input name="ingredient_quantity" class="form-control" placeholder="Ilość" value="{{ ing.quantity }}"></div>
+            <div class="col-3"><input name="ingredient_unit" class="form-control" placeholder="Jednostka" value="{{ ing.unit }}"></div>
+            <div class="col-1"><button type="button" class="btn btn-outline-danger remove-ingredient">&times;</button></div>
+        </div>
+        {% endfor %}
+        {% for _ in range(existing|length, 3) %}
+        <div class="row g-2 mb-2 ingredient-row">
+            <div class="col-5"><input name="ingredient_name" class="form-control" placeholder="Nazwa"></div>
+            <div class="col-3"><input name="ingredient_quantity" class="form-control" placeholder="Ilość"></div>
+            <div class="col-3"><input name="ingredient_unit" class="form-control" placeholder="Jednostka"></div>
+            <div class="col-1"><button type="button" class="btn btn-outline-danger remove-ingredient">&times;</button></div>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-outline-success btn-sm mb-4" id="add-ingredient">
+        <i class="bi bi-plus"></i> Dodaj składnik
+    </button>
+
+    <div>
+        <button type="submit" class="btn btn-success">Zapisz</button>
+        <a href="{{ url_for('main.recipe_list') }}" class="btn btn-outline-secondary">Anuluj</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dynamiczne dodawanie/usuwanie wierszy ze składnikami.
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+        const row = document.querySelector('.ingredient-row');
+        const clone = row.cloneNode(true);
+        clone.querySelectorAll('input').forEach(i => i.value = '');
+        document.getElementById('ingredients').appendChild(clone);
+    });
+    document.getElementById('ingredients').addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-ingredient')) {
+            const rows = document.querySelectorAll('.ingredient-row');
+            if (rows.length > 1) e.target.closest('.ingredient-row').remove();
+        }
+    });
+</script>
+{% endblock %}

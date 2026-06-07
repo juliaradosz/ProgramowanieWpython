@@ -1,0 +1,168 @@
+:root {
+    --pink: #e91e90;
+    --pink-dark: #c2185b;
+    --pink-light: #f48fb1;
+    --pink-bg: #fce4ec;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff5f8;
+}
+
+.container.mt-4 {
+    flex: 1;
+}
+
+.card {
+    transition: transform 0.2s;
+    border: none;
+    box-shadow: 0 2px 8px rgba(233,30,144,0.1);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(233,30,144,0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-hero-img {
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.badge-difficulty-easy { background-color: var(--pink-light); color: #000; }
+.badge-difficulty-medium { background-color: var(--pink); color: #fff; }
+.badge-difficulty-hard { background-color: var(--pink-dark); color: #fff; }
+
+.hero-section {
+    background: linear-gradient(135deg, var(--pink-dark), var(--pink), var(--pink-light));
+    color: white;
+    padding: 4rem 0;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.ingredient-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ingredient-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed var(--pink-light);
+}
+
+.ingredient-list li:last-child {
+    border-bottom: none;
+}
+
+.no-image-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, var(--pink-bg), var(--pink-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pink);
+    font-size: 3rem;
+}
+
+/* Override Bootstrap btn-success -> pink */
+.btn-success, .btn-success:hover, .btn-success:active, .btn-success:focus {
+    background-color: var(--pink) !important;
+    border-color: var(--pink) !important;
+}
+
+.btn-outline-success {
+    color: var(--pink) !important;
+    border-color: var(--pink) !important;
+}
+
+.btn-outline-success:hover, .btn-outline-success:active {
+    background-color: var(--pink) !important;
+    border-color: var(--pink) !important;
+    color: #fff !important;
+}
+
+.bg-success { background-color: var(--pink) !important; }
+.text-success { color: var(--pink) !important; }
+.badge.bg-success { background-color: var(--pink) !important; }
+.card-header.bg-success { background-color: var(--pink) !important; }
+
+footer {
+    background: linear-gradient(90deg, #2d2d2d, #1a1a1a) !important;
+}
+
+a { color: var(--pink); }
+a:hover { color: var(--pink-dark); }
+.nav-link, .navbar-brand, .dropdown-item { color: inherit; }
+.bg-success.rounded-circle { background-color: var(--pink) !important; }
+
+/* --- Asystent AI: pływający przycisk --------------------------------------- */
+.ai-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 4px 14px rgba(233,30,144,0.45);
+    z-index: 1030;
+    transition: transform 0.2s;
+}
+.ai-fab:hover { transform: scale(1.1); color: #fff !important; }
+
+/* --- Asystent AI: okno czatu ----------------------------------------------- */
+#chat-window {
+    height: 420px;
+    overflow-y: auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.chat-message {
+    display: flex;
+}
+.chat-message.user { justify-content: flex-end; }
+.chat-message.assistant { justify-content: flex-start; }
+
+.chat-message .bubble {
+    max-width: 80%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 1rem;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+.chat-message.user .bubble {
+    background: var(--pink);
+    color: #fff;
+    border-bottom-right-radius: 0.25rem;
+}
+.chat-message.assistant .bubble {
+    background: var(--pink-bg);
+    color: #000;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.chat-typing .bubble { font-style: italic; opacity: 0.7; }

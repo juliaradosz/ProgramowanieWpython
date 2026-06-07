@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_card %}
+{% block title %}Ulubione przepisy{% endblock %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-heart-fill text-danger"></i> Ulubione przepisy</h1>
+<div class="row">
+    {% for recipe in recipes %}
+        {{ recipe_card(recipe) }}
+    {% else %}
+        <p class="text-muted">Nie masz jeszcze ulubionych przepisów.
+            <a href="{{ url_for('main.recipe_list') }}">Przeglądaj przepisy</a>.</p>
+    {% endfor %}
+</div>
+{% endblock %}

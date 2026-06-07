@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">Informacje o przepisie</div>
+                <div class="card-body">
+
+                    {% for field in form %}
+                    {% if field.name != 'tags' %}
+                    <div class="mb-3">
+
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+
+                        {% if field.field.widget.input_type == 'file' %}
+                            {{ field }}
+
+                        {% elif field.field.widget.attrs.rows %}
+                            <textarea
+                                name="{{ field.html_name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                rows="{{ field.field.widget.attrs.rows }}">{{ field.value|default:'' }}</textarea>
+
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+
+                        {% if field.errors %}
+                        <div class="invalid-feedback">
+                            {{ field.errors.0 }}
+                        </div>
+                        {% endif %}
+
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">
+                            {{ field.help_text }}
+                        </small>
+                        {% endif %}
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                    <!-- Tagi -->
+                    <div class="mb-3">
+                        <label class="form-label">Tagi</label>
+                        <div>
+                            {{ form.tags }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Składniki -->
+            <div class="card mb-4">
+                <div class="card-header">Składniki</div>
+                <div class="card-body">
+
+                    {{ formset.management_form }}
+
+                    {% for ingredient_form in formset %}
+                    <div class="row g-2 mb-2 ingredient-row">
+
+                        <div class="col-4">
+                            <input
+                                type="text"
+                                name="{{ ingredient_form.name.html_name }}"
+                                value="{{ ingredient_form.name.value|default:'' }}"
+                                class="form-control"
+                                placeholder="Nazwa składnika">
+                        </div>
+
+                        <div class="col-3">
+                            <input
+                                type="text"
+                                name="{{ ingredient_form.quantity.html_name }}"
+                                value="{{ ingredient_form.quantity.value|default:'' }}"
+                                class="form-control"
+                                placeholder="Ilość">
+                        </div>
+
+                        <div class="col-3">
+                            <input
+                                type="text"
+                                name="{{ ingredient_form.unit.html_name }}"
+                                value="{{ ingredient_form.unit.value|default:'' }}"
+                                class="form-control"
+                                placeholder="Jednostka">
+                        </div>
+
+                        <div class="col-2">
+                            {% if ingredient_form.DELETE %}
+                            <div class="form-check mt-2">
+                                {{ ingredient_form.DELETE }}
+                                <label class="form-check-label text-danger">
+                                    Usuń
+                                </label>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if ingredient_form.id %}
+                            {{ ingredient_form.id }}
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg">
+        <i class="bi bi-check-circle"></i> Zapisz przepis
+    </button>
+
+    <a href="{% url 'recipes:recipe_list' %}" class="btn btn-outline-secondary btn-lg">
+        Anuluj
+    </a>
+
+</form>
+
+{% endblock %}

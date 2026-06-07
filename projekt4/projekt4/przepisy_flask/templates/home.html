@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_card %}
+{% block title %}Strona główna – Przepisy Kulinarne{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Witaj w świecie smaków!</h1>
+        <p class="lead">Odkrywaj, gotuj i dziel się swoimi ulubionymi przepisami.</p>
+        <a href="{{ url_for('main.recipe_list') }}" class="btn btn-light btn-lg mt-2">
+            Przeglądaj przepisy
+        </a>
+        <a href="{{ url_for('chat.chat_page') }}" class="btn btn-outline-light btn-lg mt-2">
+            <i class="bi bi-robot"></i> Zapytaj asystenta AI
+        </a>
+    </div>
+</div>
+
+<h2 class="mb-4">Kategorie</h2>
+<div class="row mb-5">
+    {% for category in categories %}
+    <div class="col-6 col-md-2 mb-3">
+        <a href="{{ url_for('main.category_detail', slug=category.slug) }}"
+           class="btn btn-outline-success w-100 py-3">{{ category.name }}</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% if top_rated %}
+<h2 class="mb-4">Najwyżej oceniane</h2>
+<div class="row mb-5">
+    {% for recipe in top_rated %}{{ recipe_card(recipe) }}{% endfor %}
+</div>
+{% endif %}
+
+<h2 class="mb-4">Najnowsze przepisy</h2>
+<div class="row">
+    {% for recipe in latest_recipes %}
+        {{ recipe_card(recipe) }}
+    {% else %}
+        <p class="text-muted">Brak przepisów. Bądź pierwszy i
+            <a href="{{ url_for('main.recipe_create') }}">dodaj przepis</a>!</p>
+    {% endfor %}
+</div>
+{% endblock %}

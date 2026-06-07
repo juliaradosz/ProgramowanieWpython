@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Strona główna - Przepisy Kulinarne{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center rounded-3 mb-4 p-5">
+    <h1 class="display-4 fw-bold">Przepisy Kulinarne</h1>
+    <p class="lead">Odkryj, gotuj i dziel się swoimi ulubionymi przepisami!</p>
+    <form action="{% url 'recipes:search' %}" method="get" class="d-flex justify-content-center mt-3">
+        <input type="text" name="query" class="form-control form-control-lg w-50" placeholder="Szukaj przepisów...">
+        <button type="submit" class="btn btn-light btn-lg ms-2">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>
+
+<!-- Najnowsze przepisy -->
+<h2 class="mb-3"><i class="bi bi-clock-history"></i> Najnowsze przepisy</h2>
+<div class="row g-4 mb-5">
+    {% for recipe in latest_recipes %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            {% else %}
+            <div class="no-image-placeholder card-img-top">
+                <i class="bi bi-camera"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    {% if recipe.category %}
+                    <span class="badge bg-success">{{ recipe.category.name }}</span>
+                    {% endif %}
+                    <span class="badge badge-difficulty-{{ recipe.difficulty }}">{{ recipe.get_difficulty_display }}</span>
+                </div>
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text text-muted">{{ recipe.description|truncatewords:20 }}</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    <i class="bi bi-clock"></i> {{ recipe.total_time }} min
+                </small>
+                <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-success btn-sm">
+                    Zobacz przepis
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-muted text-center">Brak przepisów. Bądź pierwszy i dodaj swój przepis!</p>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Najwyżej oceniane -->
+{% if top_rated %}
+<h2 class="mb-3"><i class="bi bi-star-fill text-warning"></i> Najwyżej oceniane</h2>
+<div class="row g-4 mb-5">
+    {% for recipe in top_rated %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            {% else %}
+            <div class="no-image-placeholder card-img-top">
+                <i class="bi bi-camera"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
+                {% if recipe.avg_rating %}
+                <div class="rating-stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= recipe.avg_rating %}
+                            <i class="bi bi-star-fill"></i>
+                        {% else %}
+                            <i class="bi bi-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-success btn-sm w-100">
+                    Zobacz przepis
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Kategorie -->
+<h2 class="mb-3"><i class="bi bi-grid"></i> Kategorie</h2>
+<div class="row g-3 mb-4">
+    {% for category in categories %}
+    <div class="col-md-3 col-6">
+        <a href="{% url 'recipes:category_detail' category.slug %}" class="text-decoration-none">
+            <div class="card text-center p-3">
+                <h6 class="mb-0 text-success">{{ category.name }}</h6>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

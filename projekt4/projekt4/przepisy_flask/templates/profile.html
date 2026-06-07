@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_macros.html" import recipe_card %}
+{% block title %}Profil {{ profile_user.username }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-3 text-center">
+        {% if profile_user.avatar %}
+        <img src="{{ url_for('static', filename='uploads/' + profile_user.avatar) }}"
+             class="rounded-circle img-fluid" style="width:150px;height:150px;object-fit:cover;" alt="avatar">
+        {% else %}
+        <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center text-white"
+             style="width:150px;height:150px;font-size:4rem;">
+            {{ profile_user.username[0]|upper }}
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-9">
+        <h1>{{ profile_user.username }}</h1>
+        {% if profile_user.favorite_cuisine %}
+        <p class="text-muted"><i class="bi bi-globe"></i> Ulubiona kuchnia: {{ profile_user.favorite_cuisine }}</p>
+        {% endif %}
+        {% if profile_user.bio %}<p>{{ profile_user.bio }}</p>{% endif %}
+        {% if current_user.is_authenticated and current_user.id == profile_user.id %}
+        <a href="{{ url_for('auth.profile_edit', username=profile_user.username) }}" class="btn btn-outline-success btn-sm">
+            <i class="bi bi-pencil"></i> Edytuj profil
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<h3 class="mb-3">Przepisy użytkownika ({{ user_recipes|length }})</h3>
+<div class="row mb-4">
+    {% for recipe in user_recipes %}{{ recipe_card(recipe) }}{% else %}
+    <p class="text-muted">Ten użytkownik nie dodał jeszcze żadnych przepisów.</p>{% endfor %}
+</div>
+
+<h3 class="mb-3">Ulubione przepisy ({{ favorite_recipes|length }})</h3>
+<div class="row">
+    {% for recipe in favorite_recipes %}{{ recipe_card(recipe) }}{% else %}
+    <p class="text-muted">Brak ulubionych przepisów.</p>{% endfor %}
+</div>
+{% endblock %}

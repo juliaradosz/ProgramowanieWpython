@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Błąd serwera (500){% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-1 text-success">500</h1>
+    <p class="lead">Coś poszło nie tak po naszej stronie. Spróbuj ponownie później.</p>
+    <a href="{{ url_for('main.home') }}" class="btn btn-success">Wróć na stronę główną</a>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{# Makra współdzielone przez szablony – ograniczają powtarzanie kodu. #}
+
+{# Renderuje pojedyncze pole formularza WTForms z etykietą i błędami. #}
+{% macro field(f, rows=None) %}
+  <div class="mb-3">
+    {{ f.label(class="form-label") }}
+    {% if rows %}
+      {{ f(class="form-control" + (" is-invalid" if f.errors else ""), rows=rows) }}
+    {% else %}
+      {{ f(class="form-control" + (" is-invalid" if f.errors else "")) }}
+    {% endif %}
+    {% for error in f.errors %}
+      <div class="invalid-feedback">{{ error }}</div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{# Karta przepisu używana na listach. #}
+{% macro recipe_card(recipe) %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      {% if recipe.image %}
+        <img src="{{ url_for('static', filename='uploads/' + recipe.image) }}"
+             class="card-img-top" alt="{{ recipe.title }}">
+      {% else %}
+        <div class="no-image-placeholder"><i class="bi bi-egg-fried"></i></div>
+      {% endif %}
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ recipe.title }}</h5>
+        <p class="card-text text-muted small flex-grow-1">
+          {{ recipe.description[:90] }}{% if recipe.description|length > 90 %}…{% endif %}
+        </p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="badge badge-difficulty-{{ recipe.difficulty }}">
+            {{ recipe.difficulty_label }}
+          </span>
+          <span class="rating-stars">
+            {% set avg = recipe.average_rating|round(0, 'common')|int %}
+            {% for _ in range(avg) %}★{% endfor %}{% for _ in range(5 - avg) %}☆{% endfor %}
+          </span>
+        </div>
+        <a href="{{ url_for('main.recipe_detail', slug=recipe.slug) }}"
+           class="btn btn-success mt-3">Zobacz przepis</a>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

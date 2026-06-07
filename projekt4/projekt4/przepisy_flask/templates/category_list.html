@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Kategorie{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Kategorie przepisów</h1>
+<div class="row">
+    {% for category in categories %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ category.name }}</h5>
+                <p class="card-text text-muted">{{ category.description }}</p>
+                <p class="small text-muted">{{ category.recipes|selectattr('is_published')|list|length }} przepisów</p>
+                <a href="{{ url_for('main.category_detail', slug=category.slug) }}" class="btn btn-success">
+                    Zobacz przepisy
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

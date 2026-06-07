@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-2">{{ category.name }}</h1>
+{% if category.description %}
+<p class="text-muted mb-4">{{ category.description }}</p>
+{% endif %}
+
+<div class="row g-4">
+    {% for recipe in recipes %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            {% else %}
+            <div class="no-image-placeholder card-img-top">
+                <i class="bi bi-camera"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <span class="badge badge-difficulty-{{ recipe.difficulty }} mb-2">{{ recipe.get_difficulty_display }}</span>
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text text-muted">{{ recipe.description|truncatewords:20 }}</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="btn btn-outline-success btn-sm w-100">
+                    Zobacz przepis
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h4 class="text-muted">Brak przepisów w tej kategorii</h4>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

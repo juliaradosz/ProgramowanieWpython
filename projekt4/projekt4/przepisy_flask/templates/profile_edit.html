@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Edycja profilu{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <h1 class="mb-4">Edytuj profil</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ field(form.bio, rows=4) }}
+            {{ field(form.favorite_cuisine) }}
+            {{ field(form.avatar) }}
+            <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+            <a href="{{ url_for('auth.profile', username=current_user.username) }}"
+               class="btn btn-outline-secondary">Anuluj</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

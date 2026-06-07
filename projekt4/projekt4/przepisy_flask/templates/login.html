@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card card-body">
+            <h1 class="h3 mb-4 text-center">Zaloguj się</h1>
+            <form method="post">
+                {{ form.hidden_tag() }}
+                {{ field(form.username) }}
+                {{ field(form.password) }}
+                <div class="form-check mb-3">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label") }}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Zaloguj się</button>
+            </form>
+            <p class="text-center mt-3 mb-0">
+                Nie masz konta? <a href="{{ url_for('auth.register') }}">Zarejestruj się</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

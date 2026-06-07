@@ -1,0 +1,13 @@
+# Środowisko i sekrety
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Baza danych i przesyłane pliki
+instance/
+static/uploads/*
+!static/uploads/.gitkeep

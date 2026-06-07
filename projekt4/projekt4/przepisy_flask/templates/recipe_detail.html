@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}{{ recipe.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('main.home') }}">Strona główna</a></li>
+        {% if recipe.category %}
+        <li class="breadcrumb-item">
+            <a href="{{ url_for('main.category_detail', slug=recipe.category.slug) }}">{{ recipe.category.name }}</a>
+        </li>
+        {% endif %}
+        <li class="breadcrumb-item active">{{ recipe.title }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        {% if recipe.image %}
+        <img src="{{ url_for('static', filename='uploads/' + recipe.image) }}"
+             class="recipe-hero-img mb-4" alt="{{ recipe.title }}">
+        {% endif %}
+
+        <div class="d-flex justify-content-between align-items-start">
+            <h1>{{ recipe.title }}</h1>
+            <span class="rating-stars fs-5">
+                {% set avg = recipe.average_rating|round(0, 'common')|int %}
+                {% for _ in range(avg) %}★{% endfor %}{% for _ in range(5 - avg) %}☆{% endfor %}
+            </span>
+        </div>
+        <p class="text-muted">
+            Autor:
+            <a href="{{ url_for('auth.profile', username=recipe.author.username) }}">{{ recipe.author.username }}</a>
+            {% for tag in recipe.tags %}<span class="badge bg-success ms-1">{{ tag.name }}</span>{% endfor %}
+        </p>
+        <p class="lead">{{ recipe.description }}</p>
+
+        <div class="row text-center my-4">
+            <div class="col"><i class="bi bi-clock"></i><br>Przygotowanie<br><strong>{{ recipe.prep_time }} min</strong></div>
+            <div class="col"><i class="bi bi-fire"></i><br>Gotowanie<br><strong>{{ recipe.cook_time }} min</strong></div>
+            <div class="col"><i class="bi bi-people"></i><br>Porcje<br><strong>{{ recipe.servings }}</strong></div>
+            <div class="col"><i class="bi bi-bar-chart"></i><br>Trudność<br><strong>{{ recipe.difficulty_label }}</strong></div>
+        </div>
+
+        <h3>Instrukcje przygotowania</h3>
+        <div class="mb-4">
+            {% for step in recipe.instructions.split('\n') %}
+                {% if step.strip() %}<p>{{ step }}</p>{% endif %}
+            {% endfor %}
+        </div>
+
+        {# Komentarze i oceny #}
+        <h3 class="mt-5">Komentarze ({{ recipe.comments|length }})</h3>
+        {% if current_user.is_authenticated %}
+        <form method="post" class="card card-body mb-4">
+            {{ comment_form.hidden_tag() }}
+            {{ field(comment_form.content, rows=3) }}
+            <div class="mb-3">
+                {{ comment_form.rating.label(class="form-label") }}
+                {{ comment_form.rating(class="form-select", style="max-width: 150px;") }}
+            </div>
+            <button type="submit" class="btn btn-success">Dodaj komentarz</button>
+        </form>
+        {% else %}
+        <p><a href="{{ url_for('auth.login') }}">Zaloguj się</a>, aby dodać komentarz.</p>
+        {% endif %}
+
+        {% for comment in recipe.comments %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <strong>{{ comment.author.username }}</strong>
+                    <span class="rating-stars">{% for _ in range(comment.rating) %}★{% endfor %}</span>
+                </div>
+                <p class="mb-1">{{ comment.content }}</p>
+                <small class="text-muted">{{ comment.created_at.strftime('%d.%m.%Y') }}</small>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">Brak komentarzy. Bądź pierwszy!</p>
+        {% endfor %}
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white"><i class="bi bi-basket"></i> Składniki</div>
+            <ul class="list-group list-group-flush ingredient-list p-3">
+                {% for ing in recipe.ingredients %}
+                <li>{{ ing.quantity }} {{ ing.unit }} – {{ ing.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {# Powiązanie z asystentem AI: pytanie o konkretny przepis. #}
+        <a href="{{ url_for('chat.chat_page', recipe=recipe.slug) }}" class="btn btn-outline-success w-100 mb-3">
+            <i class="bi bi-robot"></i> Zapytaj AI o ten przepis
+        </a>
+
+        {% if current_user.is_authenticated %}
+        <form method="post" action="{{ url_for('main.toggle_favorite', slug=recipe.slug) }}" class="mb-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn w-100 {{ 'btn-danger' if is_favorite else 'btn-outline-danger' }}">
+                <i class="bi bi-heart{{ '-fill' if is_favorite }}"></i>
+                {{ 'W ulubionych' if is_favorite else 'Dodaj do ulubionych' }}
+            </button>
+        </form>
+        {% endif %}
+
+        {% if current_user.is_authenticated and (current_user.id == recipe.author_id or current_user.is_admin) %}
+        <a href="{{ url_for('main.recipe_update', slug=recipe.slug) }}" class="btn btn-outline-secondary w-100 mb-2">
+            <i class="bi bi-pencil"></i> Edytuj
+        </a>
+        <form method="post" action="{{ url_for('main.recipe_delete', slug=recipe.slug) }}"
+              onsubmit="return confirm('Czy na pewno usunąć ten przepis?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-outline-danger w-100"><i class="bi bi-trash"></i> Usuń</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
